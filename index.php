@@ -1,7 +1,6 @@
 <?php
 require_once "utility/db_connection.php";
-include "utility/get_balance.php";
-include "utility/get_subusers_balance.php";
+include "utility/get_balances.php";
 $global_balance = $user_balance + $sub_users_balance;
 ?>
 
