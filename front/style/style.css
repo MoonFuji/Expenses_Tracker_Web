@@ -28,6 +28,12 @@ header {
   width: 100%;
 }
 
+
+.title
+{
+  text-decoration: none;
+  color: white;
+}
 .container {
   margin: 30px auto;
   width: 350px;
