@@ -16,18 +16,18 @@
     </header>
     <h1>Log in</h1>
     <div class="container">
-        <form id="form">
+        <form id="form" method="POST" action="../utility/login.inc.php">
     
             <div class="form-control">
-                <label for="email">E-mail</label>
-                <input type="email" name="user-email" id="email" placeholder="Enter your Email..." />
+                <label for="us-name">Name</label>
+                <input type="text" name="user-name" id="us-name" placeholder="Enter your Name..." />
             </div>
             <div class="form-control">
                 <label for="pwd">Password<br />
                 </label>
                 <input type="password" name="user-pwd" id="pwd" placeholder="Enter your password..." />
             </div>
-            <button class="btn">Login</button>
+            <button class="btn" type="submit">Login</button>
         </form>
     </div>
 

@@ -1,3 +1,16 @@
+<?php
+session_start();
+$username = $_SESSION['username'];
+$user_id = $_SESSION['user_id'];
+
+require_once "../utility/db_connection.php";
+// require_once "../utility/get_balances.php";
+// $user_balance = $_SESSION['user_balance'];
+// $sub_users_balance = $_SESSION['sub_users_balance'];
+// $global_balance = $user_balance + $sub_users_balance;
+
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -14,10 +27,11 @@
     <header>
         <h2>Family Expense Tracker</h2>
     </header>
-    <h2>Welcome Charchar Imad eddine</h5>
+    <h2>Welcome 
+        <?php echo $username ; ?> !</h2>
     <div class="container">
-        <h4>Your Balance</h4>
-        <h1 id="balance">$0.00</h1>
+        <h4>Your balance</h4>
+        <h1 id="balance">0 DA</h1>
     
         <div class="inc-exp-container">
             <a href="expense.html">
