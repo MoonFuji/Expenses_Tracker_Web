@@ -9,5 +9,5 @@ if (!$stmt->execute()) {
     die("Query failed: " . mysqli_error($conn));
 }
 // Redirect to the page that displays the updated list of revenues
-header("Location: ../index.php");
+header("Location: ../pages/sub_users.php");
 exit;

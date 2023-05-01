@@ -18,7 +18,23 @@ body {
   margin: 0;
   font-family: 'Lato', sans-serif;
 }
+.welcome
+{
+  margin-top: 5%;
+}
+.balances
+{
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  margin: 20px 0;
+  width: 100%;
+}
+.balance{
+  display: flex;
+  flex-direction: column;
 
+}
 
 .title
 {
@@ -37,6 +53,22 @@ z-index: 99;
   top:0px;
 }
 
+.btn-out
+{
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  height: 40px;
+  position: absolute;
+  right: 1%;
+  top: 15px;
+  background-color: white;
+  text-decoration: none;
+  color:#4343d8;
+  font-weight: bold;
+}
 .user-name
 {
   position: absolute;

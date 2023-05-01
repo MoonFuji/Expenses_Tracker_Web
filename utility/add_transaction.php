@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // execute statement and handle errors
             if ($stmt->execute()) {
                 echo "expense added successfully";
-                header('Location: ../pages/index.php?message=success');
+                header('Location: ../index.php?message=success');
                 exit();
             } else {
                 echo "Error: " . $stmt->error;
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             if ($stmt->execute()) {
                 echo "revenue added successfully";
-                header('Location: ../pages/index.php?message=success');
+                header('Location: ../index.php?message=success');
                 exit();
             } else {
                 echo "Error: " . $stmt->error;

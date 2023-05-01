@@ -10,9 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($conn, $sql);
     $num_rows = mysqli_num_rows($result);
-    if($password !== $Repeated_password){
-            header("Location: ../front/signup.php?error=passwordcheckuid=".$username);
-            exit();
+    if ($password !== $Repeated_password) {
+        header("Location: ../front/signup.php?error=passwordcheckuid=" . $username);
+        exit();
     }
     if ($num_rows > 0) {
         $_SESSION['error_message'] = "Username already exists. Please choose a different username.";
@@ -22,11 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_query($conn, $sql);
         if ($result) {
             echo "Signup successful. Please login to continue.";
-            header("Location: ../front/login.php");
+            header("Location: ../pages/login.php");
             exit();
         } else {
             echo "Signup failed. Please try again.";
         }
     }
 }
-?>

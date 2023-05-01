@@ -27,26 +27,40 @@ if (!isset($_SESSION['user_id'])) {
         <h2>Family Expense Tracker</h2>
         <?php
         if (!isset($_SESSION['user_id'])) {
-            echo '<a href="login.php" class="button">Login</a>';
-            echo '<a href="signup.php" class="button">signup</a>';
+            echo '<a href="pages/login.php" class="button">Login</a>';
+            echo '<a href="pages/signup.php" class="button">signup</a>';
         } else {
             echo '<div class="user-profile">';
-            echo '<a href="utility/logout.php" class="btn">Logout</a>';
+            echo '<a href="utility/logout.php" class="btn-out">Logout</a>';
             echo '</div>';
         } ?>
     </header>
-    <h2>Welcome
+    <h2 class="welcome">Welcome
         <?php echo $username; ?> !</h2>
-    <div class="container">
-        <h4>Your balance</h4>
-        <h1 id="balance"><?php echo $user_balance ?> DA</h1>
+    <div class="balances">
+        <div class="balance">
 
+            <h4>Your balance :</h4>
+            <h1><?php echo $user_balance ?>DA</h1>
+        </div>
+        <div class="balance">
+            <h4>Sub Users balance :</h4>
+            <h1><?php echo $sub_users_balance ?>DA</h1>
+        </div>
+        <div class="balance">
+
+            <h4>Global balance :</h4>
+            <h1><?php echo $global_balance ?>DA</h1>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="inc-exp-container">
-            <a href="revenue.php">
+            <a href="pages/revenue.php">
                 <h4>Revenue</h4>
                 <p id="money-plus" class="money plus">+ <?php echo $user_revenue ?> DA</p>
             </a>
-            <a href="expense.php">
+            <a href="pages/expense.php">
                 <h4>Expense</h4>
                 <p id="money-minus" class="money minus">-<?php echo $user_expenses ?> DA</p>
             </a>
@@ -67,14 +81,14 @@ if (!isset($_SESSION['user_id'])) {
                 <label for="amount">Amount <br />
                 </label>
                 <div id="amount">
-                    <input type="number" placeholder="Enter amount..." />
+                    <input type="number" placeholder="Enter amount..." required />
                 </div>
             </div>
 
             <div class="form-control">
                 <label for="text">Description</label>
                 <div id="description">
-                    <input type="text" placeholder="Enter name of transaction..." />
+                    <input type="text" placeholder="Enter name of transaction..." required />
                 </div>
             </div>
             <div class="form-control">
@@ -103,34 +117,32 @@ if (!isset($_SESSION['user_id'])) {
         </form>
     </div>
     <!-- end add new transation -->
-
-
     <section>
         <div class="sub-user">
-            <a href="sub_users.php">
+            <a href="pages/sub_users.php">
                 <h3>Add or Edit Sub-user</h3>
             </a>
 
             <form id="form" method="post" action="utility/add_sub_user.php">
                 <div class="form-control">
                     <label for="text">Name of sub-user</label>
-                    <input type="text" name="username" id="text" placeholder="Enter name sub-user..." />
+                    <input type="text" name="username" id="text" required placeholder="Enter name sub-user..." />
                 </div>
                 <div class="form-control">
                     <label for="password">Password of sub-user</label>
-                    <input type="text" name="password" id="password" placeholder="Enter password sub-user..." />
+                    <input required type="text" name="password" id="password" placeholder="Enter password sub-user..." />
                 </div>
                 <button class="btn" type="submit">Add Sub-user</button>
             </form>
         </div>
         <div class="add-category">
-            <a href="categories.html">
+            <a href="pages/categories.php">
                 <h3>Add or Edit Category</h3>
             </a>
             <form id="addcategory" method="post" action="utility/add_category.php">
                 <div class="form-control">
                     <label for="text">Name of category</label>
-                    <input type="text" name="category_name" id="categories_add" placeholder="Enter name category..." />
+                    <input required type="text" name="category_name" id="categories_add" placeholder="Enter name category..." />
                 </div>
                 <button class="btn" type="submit">Add Category</button>
             </form>

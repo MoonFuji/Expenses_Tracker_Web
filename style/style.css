@@ -27,8 +27,23 @@ header {
   height: 75px;
   width: 100%;
 }
+.welcome
+{
+  margin-top: 5%;
+}
+.balances
+{
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  margin: 20px 0;
+  width: 100%;
+}
+.balance{
+  display: flex;
+  flex-direction: column;
 
-
+}
 .title
 {
   text-decoration: none;
@@ -60,9 +75,11 @@ h4 {
   border-radius: 10px;
   box-shadow: var(--box-shadow);
   padding: 20px;
+  width: 120%;
   display: flex;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: auto 0;
+  margin-left: -12%;
 }
 
 .inc-exp-container > a {
@@ -149,6 +166,23 @@ input[type='number'],input[type='Date'],input[type='password'],select{
 .btn:focus,
 .delete-btn:focus {
   outline: 0;
+}
+
+.btn-out
+{
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  height: 40px;
+  position: absolute;
+  right: 1%;
+  top: 15px;
+  background-color: white;
+  text-decoration: none;
+  color:#4343d8;
+  font-weight: bold;
 }
 
 .list {
