@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "db_connection.php";
 if (isset($_POST['user-name']) && isset($_POST['user-pwd'])) {
     $username = $_POST['user-name'];
@@ -17,7 +16,7 @@ if (isset($_POST['user-name']) && isset($_POST['user-pwd'])) {
             session_regenerate_id();
             $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['username'] = $username;
-            header('Location: ../front/index.php');
+            header('Location: ../index.php');
             exit();
         }
     } else {
@@ -26,7 +25,7 @@ if (isset($_POST['user-name']) && isset($_POST['user-pwd'])) {
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             if ($password == $row['password']) {
@@ -36,13 +35,13 @@ if (isset($_POST['user-name']) && isset($_POST['user-pwd'])) {
                 $_SESSION['sub_user_id'] = $row['sub_user_id'];
                 $_SESSION['is_sub_user'] = true;
                 $_SESSION['username'] = $username;
-                header('Location: ../front/index.php');
+                header('Location: ../index.php');
                 exit();
             }
         } else {
             // Invalid username or password
             $_SESSION['error_message'] = "Invalid username or password.";
-            header('Location: ../front/login.php');
+            header('Location: ../pages/login.php');
             exit();
         }
     }

@@ -1,154 +1,158 @@
 <?php
+$username = $_SESSION['username'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
 require_once "utility/db_connection.php";
 include "utility/get_balances.php";
 $global_balance = $user_balance + $sub_users_balance;
-?>
+if (!isset($_SESSION['user_id'])) {
+    header('Location: pages/welcome.html');
+    exit();
+}
 
-<!DOCTYPE html>
-<html>
+?>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <title>Family Expense Tracker</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style/style.css">
+
+    <title>Familly Expense Tracker</title>
 </head>
-<?php
-if (!isset($_SESSION['user_id'])) {
-    // Redirect the user to the login page
-    header('Location: pages/login.php');
-    exit;
-} ?>
 
 <body>
     <header>
-        <h1>Family Expense Tracker</h1>
+        <h2>Family Expense Tracker</h2>
         <?php
-        // Show login button if user is not logged in
         if (!isset($_SESSION['user_id'])) {
-            echo '<a href="pages/login.php" class="button">Login</a>';
-            echo '<a href="pages/signup.php" class="button">signup</a>';
+            echo '<a href="login.php" class="button">Login</a>';
+            echo '<a href="signup.php" class="button">signup</a>';
         } else {
-            // Show user profile and logout button if user is logged in
             echo '<div class="user-profile">';
-            echo '<p>Welcome, ' . $_SESSION['username'] . '</p>';
-            echo '<a href="pages/profile.php" class="button">Profile</a>';
-            echo '<a href="utility/logout.php" class="button">Logout</a>';
+            echo '<a href="utility/logout.php" class="btn">Logout</a>';
             echo '</div>';
-        }
-        ?>
+        } ?>
     </header>
-    <main>
-        <div class="container">
-            <div class="card">
-                <h2>Your Balance</h2>
-                <div id="user-balance" class="balance">
-                    <p> <?php echo $user_balance  ?></p>
+    <h2>Welcome
+        <?php echo $username; ?> !</h2>
+    <div class="container">
+        <h4>Your balance</h4>
+        <h1 id="balance"><?php echo $user_balance ?> DA</h1>
 
-                </div>
-            </div>
-            <div class="card">
-                <h2>Sub-users Balance</h2>
-                <div id="sub-users-balance" class="balance">
-                    <p> <?php echo $sub_users_balance  ?></p>
-
-                </div>
-            </div>
-            <div class="card">
-                <h2>Global Balance</h2>
-                <div id="global-balance" class="balance">
-                    <p> <?php echo $global_balance ?></p>
-                </div>
-            </div>
+        <div class="inc-exp-container">
+            <a href="revenue.php">
+                <h4>Revenue</h4>
+                <p id="money-plus" class="money plus">+ <?php echo $user_revenue ?> DA</p>
+            </a>
+            <a href="expense.php">
+                <h4>Expense</h4>
+                <p id="money-minus" class="money minus">-<?php echo $user_expenses ?> DA</p>
+            </a>
         </div>
-        <!-- button to add revenue  -->
-        <a href="pages/add_transaction.php" class="button">Add transaction</a>
-        <?php
-        // Fetch the revenues from the database
-        $stmt = $conn->prepare("SELECT revenue.*, categories.category_name 
-        FROM revenue 
-        JOIN categories ON revenue.category_id = categories.category_id 
-        WHERE revenue.user_id = ?");
-        $stmt->bind_param("i", $_SESSION['user_id']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?php echo $row['category_name']; ?></td>
-                        <td><?php echo $row['revenue_description']; ?></td>
-                        <td><?php echo $row['revenue_amount']; ?></td>
-                        <td><?php echo $row['date_added']; ?></td>
-                        <td>
-                            <button> <a href="./pages/edit_revenue.php?revenue_id=<?php echo $row['revenue_id']; ?>">Edit </a></button>
 
-                            <form action="utility/delete_revenue.php" method="post">
-                                <input type="hidden" name="revenue_id" value="<?php echo $row['revenue_id'] ?>">
-                                <button type="submit">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-        <!-- fetch expenses from database-->
-        <?php
-        // Fetch the expenses from the database
-        $stmt = $conn->prepare("SELECT expenses.*, categories.category_name 
-        FROM expenses 
-        JOIN categories ON expenses.category_id = categories.category_id 
-        WHERE expenses.user_id = ?");
-        $stmt->bind_param("i", $_SESSION['user_id']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        ?>
+        <h3>Add new Transaction</h3>
+        <form id="form" action="utility/add_transaction.php" method="post">
+            <div class="form-control">
+                <label for="transaction">Choose a transaction (Revenue / Expense)</label>
+                <select id="transaction" name="transaction">
+                    <option value=''>-------Select Transaction Type------</option>
+                    <option value="revenue">Revenue</option>
+                    <option value="expense">Expense</option>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>description</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?php echo $row['category_name']; ?></td>
-                        <td><?php echo $row['expense_amount']; ?></td>
-                        <td><?php echo $row['expense_description']; ?></td>
-                        <td><?php echo $row['date_added']; ?></td>
-                        <td>
-                            <button> <a href="pages/edit_expense.php?expense_id=<?php echo $row['expense_id']; ?>">Edit </a></button>
-                            <form action="utility/delete_expense.php" method="post">
-                                <input type="hidden" name="expense_id" value="<?php echo $row['expense_id'] ?>">
-                                <button type="submit">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                </select>
+            </div>
+            <div class="form-control">
+                <label for="amount">Amount <br />
+                </label>
+                <div id="amount">
+                    <input type="number" placeholder="Enter amount..." />
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label for="text">Description</label>
+                <div id="description">
+                    <input type="text" placeholder="Enter name of transaction..." />
+                </div>
+            </div>
+            <div class="form-control">
+                <label for="date">Date<br />
+                </label>
+                <input type="Date" name="date_added" id="date" />
+            </div>
+            <div class="form-control">
+                <label for="categories">Category</label>
+                <select id="categories" name="category_id">
+                    <option value=''>-------Select category------</option>
+                    <?php
+                    // SQL query to get all categories
+                    $sql = "SELECT * FROM categories WHERE user_id=$user_id";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<option value='" . $row["category_id"] . "'>" . $row["category_name"] . "</option>";
+                        }
+                    }
+                    ?>
+                    <option value="other">-------Go To Add Category------</option>
+                </select>
+            </div>
+            <button class="btn">Add transaction</button>
+        </form>
+    </div>
+    <!-- end add new transation -->
 
 
-    </main>
-    <footer>
-        <p>&copy; 2021 - Family Expense Tracker</p>
+    <section>
+        <div class="sub-user">
+            <a href="sub_users.php">
+                <h3>Add or Edit Sub-user</h3>
+            </a>
+
+            <form id="form" method="post" action="utility/add_sub_user.php">
+                <div class="form-control">
+                    <label for="text">Name of sub-user</label>
+                    <input type="text" name="username" id="text" placeholder="Enter name sub-user..." />
+                </div>
+                <div class="form-control">
+                    <label for="password">Password of sub-user</label>
+                    <input type="text" name="password" id="password" placeholder="Enter password sub-user..." />
+                </div>
+                <button class="btn" type="submit">Add Sub-user</button>
+            </form>
+        </div>
+        <div class="add-category">
+            <a href="categories.html">
+                <h3>Add or Edit Category</h3>
+            </a>
+            <form id="addcategory" method="post" action="utility/add_category.php">
+                <div class="form-control">
+                    <label for="text">Name of category</label>
+                    <input type="text" name="category_name" id="categories_add" placeholder="Enter name category..." />
+                </div>
+                <button class="btn" type="submit">Add Category</button>
+            </form>
+        </div>
+
+    </section>
+
+
 </body>
 
 </html>
+
+<script>
+    var transactionSelect = document.getElementById("transaction");
+    var amountDescription = document.getElementById("amount");
+    var descriptionInput = document.getElementById("description");
+
+    transactionSelect.addEventListener("change", function() {
+        var selectedTransaction = transactionSelect.value;
+
+        amountDescription.innerHTML = "<input type='number' name='" + selectedTransaction + "_amount' required>";
+        descriptionInput.innerHTML = "<input type='text' name='" + selectedTransaction + "_description' required>";
+
+    });
+</script>
