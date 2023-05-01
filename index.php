@@ -27,6 +27,7 @@ if (!isset($_SESSION['user_id'])) {
         // Show login button if user is not logged in
         if (!isset($_SESSION['user_id'])) {
             echo '<a href="pages/login.php" class="button">Login</a>';
+            echo '<a href="pages/signup.php" class="button">signup</a>';
         } else {
             // Show user profile and logout button if user is logged in
             echo '<div class="user-profile">';
@@ -42,27 +43,32 @@ if (!isset($_SESSION['user_id'])) {
             <div class="card">
                 <h2>Your Balance</h2>
                 <div id="user-balance" class="balance">
-                    <p> <?php echo "$user_balance"  ?></p>
+                    <p> <?php echo $user_balance  ?></p>
 
                 </div>
             </div>
             <div class="card">
                 <h2>Sub-users Balance</h2>
                 <div id="sub-users-balance" class="balance">
-                    <p> <?php echo "$sub_users_balance"  ?></p>
+                    <p> <?php echo $sub_users_balance  ?></p>
 
                 </div>
             </div>
             <div class="card">
                 <h2>Global Balance</h2>
                 <div id="global-balance" class="balance">
-                    <p> <?php echo "$global_balance"  ?></p>
+                    <p> <?php echo $global_balance ?></p>
                 </div>
             </div>
         </div>
+        <!-- button to add revenue  -->
+        <a href="pages/add_transaction.php" class="button">Add transaction</a>
         <?php
         // Fetch the revenues from the database
-        $stmt = $conn->prepare("SELECT revenue_id, description, amount FROM Revenue WHERE user_id = ?");
+        $stmt = $conn->prepare("SELECT revenue.*, categories.category_name 
+        FROM revenue 
+        JOIN categories ON revenue.category_id = categories.category_id 
+        WHERE revenue.user_id = ?");
         $stmt->bind_param("i", $_SESSION['user_id']);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -71,19 +77,68 @@ if (!isset($_SESSION['user_id'])) {
         <table>
             <thead>
                 <tr>
+                    <th>Category</th>
                     <th>Description</th>
                     <th>Amount</th>
+                    <th>Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php while ($row = $result->fetch_assoc()) { ?>
                     <tr>
-                        <td><?php echo $row['description']; ?></td>
-                        <td><?php echo $row['amount']; ?></td>
+                        <td><?php echo $row['category_name']; ?></td>
+                        <td><?php echo $row['revenue_description']; ?></td>
+                        <td><?php echo $row['revenue_amount']; ?></td>
+                        <td><?php echo $row['date_added']; ?></td>
                         <td>
-                            <button href="./pages/edit_revenue.php?revenue_id=<?php echo $row['revenue_id']; ?>">Edit</button>
-                            <button>Delete</button>
+                            <button> <a href="./pages/edit_revenue.php?revenue_id=<?php echo $row['revenue_id']; ?>">Edit </a></button>
+
+                            <form action="utility/delete_revenue.php" method="post">
+                                <input type="hidden" name="revenue_id" value="<?php echo $row['revenue_id'] ?>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <!-- fetch expenses from database-->
+        <?php
+        // Fetch the expenses from the database
+        $stmt = $conn->prepare("SELECT expenses.*, categories.category_name 
+        FROM expenses 
+        JOIN categories ON expenses.category_id = categories.category_id 
+        WHERE expenses.user_id = ?");
+        $stmt->bind_param("i", $_SESSION['user_id']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        ?>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>description</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()) { ?>
+                    <tr>
+                        <td><?php echo $row['category_name']; ?></td>
+                        <td><?php echo $row['expense_amount']; ?></td>
+                        <td><?php echo $row['expense_description']; ?></td>
+                        <td><?php echo $row['date_added']; ?></td>
+                        <td>
+                            <button> <a href="pages/edit_expense.php?expense_id=<?php echo $row['expense_id']; ?>">Edit </a></button>
+                            <form action="utility/delete_expense.php" method="post">
+                                <input type="hidden" name="expense_id" value="<?php echo $row['expense_id'] ?>">
+                                <button type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 <?php } ?>
