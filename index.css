@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "nasalization", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #ffffff;
+    overflow: hidden;
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100vh;
+}
+
+header {
+    background-color: #4343d8;
+    color: #ffffff;
+    padding: 10px;
+}
+
+.ExpenseLabel {
+    text-align: left;
+    font-size: 36px;
+}
+
+#signup {
+    position: absolute;
+    top: 20px;
+    left: 1200px;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: black;
+    font-size: 15px;
+    color: white;
+    font-family: "nasalization", sans-serif;
+}
+
+#signup a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#login a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#signup:hover {
+    background-color: orange;
+}
+
+#login {
+    position: absolute;
+    top: 20px;
+    left: 1300px;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: black;
+    font-size: 15px;
+    color: white;
+    font-family: "nasalization", sans-serif;
+}
+
+#login:hover {
+    background-color: orange;
+}
+
+#par1 {
+    position: absolute;
+    left: 50px;
+    top: 100px;
+    height: 300px;
+    width: 900px;
+    font-size: 35px;
+    text-align: left;
+}
+
+#par2 {
+    position: absolute;
+    left: 50px;
+    top: 300px;
+    height: 300px;
+    width: 900px;
+    font-size: 35px;
+    text-align: left;
+}
+
+#par4 {
+    position: absolute;
+    left: 50px;
+    top: 500px;
+    height: 300px;
+    width: 900px;
+    font-size: 35px;
+    text-align: left;
+}
+
+footer {
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    height: 50px;
+    background-color: #4343d8;
+}
+
+.photo {
+    position: absolute;
+    top: 75px;
+    left: 1000px;
+    width: 90px;
+    height: 100%;
+}
+
+#photo1 {
+    width: 500px;
+    height: 650px;
+}
+
+footer p {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}

@@ -78,14 +78,16 @@ if (!isset($_SESSION['user_id'])) {
             </thead>
             <tbody>
                 <?php while ($row = $result->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?php echo $row['description']; ?></td>
-                        <td><?php echo $row['amount']; ?></td>
-                        <td>
-                            <button href="./pages/edit_revenue.php?revenue_id=<?php echo $row['revenue_id']; ?>">Edit</button>
-                            <button>Delete</button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td><?php echo $row['description']; ?></td>
+                    <td><?php echo $row['amount']; ?></td>
+                    <td>
+                        <button
+                            href="./pages/edit_revenue.php?revenue_id=<?php echo $row['revenue_id']; ?>">Edit</button>
+                        <button>Delete</button>
+                        
+                    </td>
+                </tr>
                 <?php } ?>
             </tbody>
         </table>
@@ -94,6 +96,7 @@ if (!isset($_SESSION['user_id'])) {
     </main>
     <footer>
         <p>&copy; 2021 - Family Expense Tracker</p>
+    </footer>
 </body>
 
 </html>
