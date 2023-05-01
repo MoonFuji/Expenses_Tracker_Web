@@ -16,7 +16,7 @@ if (isset($_POST['date_added'])) {
     // execute statement
     if ($stmt->execute()) {
         // redirect back to homepage with success message
-        header('Location: ../index.php?message=success');
+        header('Location: ../pages/expense.php?message=success');
         exit();
     } else {
         // redirect back to edit page with error message
@@ -32,7 +32,7 @@ if (isset($_POST['date_added'])) {
     // execute statement
     if ($stmt->execute()) {
         // redirect back to homepage with success message
-        header('Location: ../index.php?message=success');
+        header('Location: ../pages/expense.php?message=success');
         exit();
     } else {
         // redirect back to edit page with error message

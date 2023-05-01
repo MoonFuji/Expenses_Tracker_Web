@@ -59,26 +59,24 @@ if (!isset($_SESSION['user_id'])) {
 		</a>
 	</div>
 	<section>
-		<h3>Revenues</h3>
+		<h3>Categories</h3>
 		<?php
-		// Fetch the revenues from the database
-		$stmt = $conn->prepare("SELECT revenue.*, categories.category_name 
-        FROM revenue 
-        JOIN categories ON revenue.category_id = categories.category_id 
-        WHERE revenue.user_id = ?");
+		// Fetch the expenses from the database
+		$stmt = $conn->prepare("SELECT expenses.*, categories.category_name 
+        FROM expenses 
+        JOIN categories ON expenses.category_id = categories.category_id 
+        WHERE expenses.user_id = ?");
 		$stmt->bind_param("i", $_SESSION['user_id']);
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$stmt->close();
 		?>
+
 		<div class="container-expenses">
 			<table>
 				<thead>
 					<tr>
 						<th>Category</th>
-						<th>Amount</th>
-						<th>Description</th>
-						<th>Date</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -86,16 +84,13 @@ if (!isset($_SESSION['user_id'])) {
 					<?php while ($row = $result->fetch_assoc()) { ?>
 						<tr>
 							<td><?php echo $row['category_name']; ?></td>
-							<td><?php echo $row['revenue_description']; ?></td>
-							<td><?php echo $row['revenue_amount']; ?></td>
-							<td><?php echo $row['date_added']; ?></td>
 							<td>
-								<form action="../pages/edit_revenue.php" method="post">
-									<input type="hidden" name="revenue_id" value="<?php echo $row['revenue_id'] ?>">
-									<button class="btn-edit" type="submit">Edit </button>
+								<form action="../pages/edit_category.php" method="post">
+									<input type="hidden" name="category_id" value="<?php echo $row['category_id'] ?>">
+									<button class="btn-edit" type="submit">Edit</button>
 								</form>
-								<form action="../utility/delete_revenue.php" method="post">
-									<input type="hidden" name="revenue_id" value="<?php echo $row['revenue_id'] ?>">
+								<form action="../utility/delete_category.php" method="post">
+									<input type="hidden" name="category_id" value="<?php echo $row['category_id'] ?>">
 									<button class="btn-delete" type="submit">Delete</button>
 								</form>
 							</td>
@@ -103,7 +98,11 @@ if (!isset($_SESSION['user_id'])) {
 					<?php } ?>
 				</tbody>
 			</table>
+			<div class="btn-container">
+				<button class="btn-add" href="../index.php">Add Category</button>
+			</div>
 		</div>
+	</section>
 </body>
 
 </html>

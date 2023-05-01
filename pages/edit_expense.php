@@ -1,24 +1,42 @@
 <?php
+$username = $_SESSION['username'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
 require_once "../utility/db_connection.php";
-$user_id = $_SESSION['user_id'];
+include "../utility/get_balances.php";
+$global_balance = $user_balance + $sub_users_balance;
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../pages/welcome.html');
+    exit();
+}
 
 ?>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <title>Edit expense</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../style/style.css">
+    <title>EDIT EXPENSE</title>
 </head>
 
 <body>
-    <h2>Edit expense</h2>
+    <header>
+        <h2>Family Expense Tracker</h2>
+        <div class="user-profile">
+            <a href="../utility/logout.php" class="btn-out">Logout</a>
+        </div>
+    </header>
+
+
     <?php
     // retrieve the expense_id from the URL
     if (isset($_POST['expense_id'])) {
         $expense_id = $_POST['expense_id'];
     } else {
         // if expense_id is not set, redirect to homepage
-        header("Location: ./index.php");
+        header("Location: ../index.php");
         exit;
     }
     // retrieve the expense information from database
@@ -57,28 +75,42 @@ $user_id = $_SESSION['user_id'];
     }
     ?>
 
-    <form action="../utility/update_expense.php" method="POST">
-        <input type="hidden" name="expense_id" value="<?php echo $expense_id; ?>">
-        <label>Amount:</label>
-        <input type="number" name="expense_amount" value="<?php echo $expense_amount; ?>"><br>
-        <label>Description:</label>
-        <input type="text" name="expense_description" value="<?php echo $expense_description; ?>"><br>
-        <label>Date:</label>
-        <input type="date" name="date_added" value="<?php echo $expense_date; ?>"><br>
-        <label>Category:</label>
-        <select name="category_id">
-            <?php
-            while ($row = mysqli_fetch_assoc($result)) {
-                $selected = "";
-                if ($row['category_id'] == $category_id) {
-                    $selected = "selected";
-                }
-                echo '<option value="' . $row['category_id'] . '" ' . $selected . '>' . $row['category_name'] . '</option>';
-            }
-            ?>
-        </select><br>
-        <input type="submit" value="Update">
-    </form>
+    <h3>Edit Expenses</h3>
+
+    <div class="container-expenses">
+        <form id="form" action="../utility/update_expense.php" method="POST">
+            <input type="hidden" name="expense_id" value="<?php echo $expense_id; ?>">
+
+            <div class="form-control">
+                <label for="expense amount">Expense Amount:</label>
+                <input type="number" name="expense_amount" value="<?php echo $expense_amount; ?>"><br>
+            </div>
+
+
+            <div class="form-control">
+                <label for="description">Description</label>
+                <input type="text" name="expense_description" value="<?php echo $expense_description; ?>"><br>
+            </div>
+            <div class="form-control">
+                <label for="date">Date:</label>
+                <input type="date" name="date_added" value="<?php echo $expense_date; ?>"><br>
+            </div>
+            <div class="form-control">
+                <label for="categories">Category</label>
+                <select name="category_id">
+                    <?php
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $selected = "";
+                        if ($row['category_id'] == $category_id) {
+                            $selected = "selected";
+                        }
+                        echo '<option value="' . $row['category_id'] . '" ' . $selected . '>' . $row['category_name'] . '</option>';
+                    }
+                    ?>
+                </select><br>
+                <input class="btn" type="submit" value="Update">
+        </form>
+    </div>
 </body>
 
 </html>

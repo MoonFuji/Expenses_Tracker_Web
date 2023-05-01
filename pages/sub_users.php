@@ -1,11 +1,19 @@
 <?php
+$username = $_SESSION['username'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
 require_once "../utility/db_connection.php";
-// Fetch the revenues from the database
+include "../utility/get_balances.php";
+$global_balance = $user_balance + $sub_users_balance;
+if (!isset($_SESSION['user_id'])) {
+	header('Location: ../pages/welcome.html');
+	exit();
+}
 $stmt = $conn->prepare("SELECT * FROM sub_users WHERE user_id = ?");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -16,17 +24,48 @@ $stmt->close();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../style/style3.css">
 
-	<title>Subusers
-	</title>
+
+	<title>Familly Expense Tracker</title>
 </head>
 
 <body>
 	<header>
-		<a href="../index.php" class="title">
-			<h2>Family Expense Tracker</h2>
-		</a>
+		<h2>Family Expense Tracker</h2>
+		<div class="user-profile">
+			<a href="../utility/logout.php" class="btn-out">Logout</a>
+		</div>
 	</header>
-	<h2 class="user-name">Charchar Imad eddine</h3>
+
+	<h2 class="welcome">Welcome
+		<?php echo $username; ?> !</h2>
+	<div class="balances">
+		<div class="balance">
+			<h4>Your balance :</h4>
+			<h1><?php echo $user_balance ?>DA</h1>
+		</div>
+		<div class="balance">
+			<h4>Sub Users balance :</h4>
+			<h1><?php echo $sub_users_balance ?>DA</h1>
+		</div>
+		<div class="balance">
+
+			<h4>Global balance :</h4>
+			<h1><?php echo $global_balance ?>DA</h1>
+		</div>
+	</div>
+	<div class="inc-exp-container">
+		<a href="revenue.php">
+			<h4>Revenue</h4>
+			<p id="money-plus" class="money plus">+ <?php echo $user_revenue ?> DA</p>
+		</a>
+		<a href="expense.php">
+			<h4>Expense</h4>
+			<p id="money-minus" class="money minus">-<?php echo $user_expenses ?> DA</p>
+		</a>
+
+	</div>
+
+	<section>
 		<h3>Sub Users</h3>
 		<div class="container-expenses">
 			<table>
@@ -50,11 +89,10 @@ $stmt->close();
 							<td><?php echo $row['username'] ?></td>
 							<td><?php echo $row1['balance'] ?? 0 ?></td>
 							<td>
-								<form action="../utility/edit_sub_user.php" method="post">
+								<form action="../pages/edit_sub_user.php" method="post">
 									<input type="hidden" name="sub_user_id" value=" <?php echo $row['sub_user_id'] ?>">
 									<button type="submit" class="btn-edit">Edit</button>
 								</form>
-
 								<form action="../utility/delete_sub_user.php" method="post">
 									<input type="hidden" name="sub_user_id" value=" <?php echo $row['sub_user_id'] ?>">
 									<button type="submit" class="btn-delete">Delete</button>

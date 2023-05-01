@@ -5,9 +5,10 @@ require_once "../utility/db_connection.php";
 include "../utility/get_balances.php";
 $global_balance = $user_balance + $sub_users_balance;
 if (!isset($_SESSION['user_id'])) {
-	header('Location: welcome.php');
-	exit;
+	header('Location: ../pages/welcome.html');
+	exit();
 }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,40 +19,47 @@ if (!isset($_SESSION['user_id'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../style/style2.css">
 
-	<title>Expenses</title>
+
+	<title>Familly Expense Tracker</title>
 </head>
 
 <body>
 	<header>
-		<a href="../index.php" class="title">
-			<h2>Family Expense Tracker</h2>
-		</a>
-		<?php
-		if (!isset($_SESSION['user_id'])) {
-			echo '<a href="login.php" class="button">Login</a>';
-			echo '<a href="signup.php" class="button">signup</a>';
-		} else {
-			echo '<div class="user-profile">';
-			echo '<a href="../utility/logout.php" class="btn">Logout</a>';
-			echo '</div>';
-		} ?>
+		<h2>Family Expense Tracker</h2>
+		<div class="user-profile">
+			<a href="../utility/logout.php" class="btn-out">Logout</a>
+		</div>
 	</header>
 
-	<h2>Welcome
+	<h2 class="welcome">Welcome
 		<?php echo $username; ?> !</h2>
-	<div class="container">
-		<h4>Your balance</h4>
-		<h1 id="balance"><?php echo $user_balance ?> DA</h1>
-		<div class="inc-exp-container">
-			<a href="revenue.php">
-				<h4>Revenue</h4>
-				<p id="money-plus" class="money plus">+ <?php echo $user_revenue ?> DA</p>
-			</a>
-			<a href="expense.php">
-				<h4>Expense</h4>
-				<p id="money-minus" class="money minus">-<?php echo $user_expenses ?> DA</p>
-			</a>
+	<div class="balances">
+		<div class="balance">
+			<h4>Your balance :</h4>
+			<h1><?php echo $user_balance ?>DA</h1>
 		</div>
+		<div class="balance">
+			<h4>Sub Users balance :</h4>
+			<h1><?php echo $sub_users_balance ?>DA</h1>
+		</div>
+		<div class="balance">
+
+			<h4>Global balance :</h4>
+			<h1><?php echo $global_balance ?>DA</h1>
+		</div>
+	</div>
+	<div class="inc-exp-container">
+		<a href="revenue.php">
+			<h4>Revenue</h4>
+			<p id="money-plus" class="money plus">+ <?php echo $user_revenue ?> DA</p>
+		</a>
+		<a href="expense.php">
+			<h4>Expense</h4>
+			<p id="money-minus" class="money minus">-<?php echo $user_expenses ?> DA</p>
+		</a>
+	</div>
+	<section>
+
 
 		<h3>Expenses</h3>
 		<?php
@@ -85,11 +93,11 @@ if (!isset($_SESSION['user_id'])) {
 							<td><?php echo $row['expense_amount']; ?></td>
 							<td><?php echo $row['date_added']; ?></td>
 							<td>
-								<form action="pages/edit_expense.php" method="post">
+								<form action="../pages/edit_expense.php" method="post">
 									<input type="hidden" name="expense_id" value="<?php echo $row['expense_id'] ?>">
 									<button class="btn-edit" type="submit">Edit</button>
 								</form>
-								<form action="utility/delete_expense.php" method="post">
+								<form action="../utility/delete_expense.php" method="post">
 									<input type="hidden" name="expense_id" value="<?php echo $row['expense_id'] ?>">
 									<button class="btn-delete" type="submit">Delete</button>
 								</form>
@@ -110,6 +118,7 @@ if (!isset($_SESSION['user_id'])) {
 
 
 
+	</section>
 </body>
 
 </html>
