@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 
@@ -6,7 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/login.css">
-
     <title>Sign up</title>
 </head>
 
@@ -16,16 +16,11 @@
     </header>
     <h1>Sign up</h1>
     <div class="container">
-        <form id="form">
+        <form id="form" action="../utility/signup.inc.php" method="POST">
             <div class="form-control">
                 <label for="name">Name</label>
                 <input type="text" name="user-name" id="name" placeholder="Enter your Name..." />
             </div>
-            <div  class="form-control">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="user-email" placeholder="Enter your Email..." />
-            </div>
-
             <div class="form-control">
                 <label for="pwd">Password<br />
                 </label>
@@ -36,7 +31,7 @@
                 </label>
                 <input type="password" id="pwd" name="user-pwd-repeated" placeholder="Repeat your password..." />
             </div>
-            <button class="btn">Sign up</button>
+            <button class="btn" type="submit">Sign up</button>
         </form>
     </div>
 

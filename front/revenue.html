@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style/style2.css">
+
+    <title>Revenue</title>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="title"><h2>Family Expense Tracker</h2></a>
+    </header>
+    <h2 class="user-name">Charchar Imad eddine</h5>
+    <div class="container">
+        <h4>Your Balance</h4>
+        <h1 id="balance">$0.00</h1>
+    
+        <div class="inc-exp-container">
+            <a href="revenue.html">
+                <h4>Revenue</h4>
+                <p id="money-plus" class="money plus">+$0.00</p>
+            </a>
+            <a href="expense.html">
+                <h4 href=>Expense</h4>
+                <p id="money-minus" class="money minus">-$0.00</p>
+            </a>
+        </div>
+    
+        <h3>Revenues</h3>
+ 
+	<style>
+		
+	</style>
+
+	<div class="container-expenses">
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Date</th>
+					<th>Category</th>
+					<th>Amount</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Imad eddine</td>
+					<td>2022-04-15</td>
+					<td>Food</td>
+					<td>$15.00</td>
+					<td>
+						<button type="button" class="btn-edit" onclick="editRow(this)">Edit</button>
+						<button type="button" class="btn-delete" onclick="deleteRow(this)">Delete</button>
+					</td>
+				</tr>
+				<tr>
+					<td>Moncef mohamed</td>
+					<td>2022-04-16</td>
+					<td>Transportation</td>
+					<td>$25.00</td>
+					<td>
+						<button type="button" class="btn-edit" onclick="editRow(this)">Edit</button>
+						<button type="button" class="btn-delete" onclick="deleteRow(this)">Delete</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+
+		<script>
+			function editRow(button) {
+				var row = button.parentNode.parentNode;
+				var cells = row.getElementsByTagName("td");
+				var name = cells[0].innerHTML;
+				var date = cells[1].innerHTML;
+				var category = cells[2].innerHTML;
+				var amount = cells[3].innerHTML;
+				cells[0].innerHTML = "<input type='text' value='" + name + "'>";
+				cells[1].innerHTML = "<input type='date' value='" + date + "'>";
+				cells[2].innerHTML = "<select><option value='Food'>Food</option><option value='Transportation'>Transportation</option></select>";
+				cells[3].innerHTML = "<input type='number' value='" + amount.substring(1) + "'>";
+				button.innerHTML = "Save";
+				button.onclick = function() {
+					cells[0].innerHTML = cells[0].firstChild.value;
+					cells[1].innerHTML = cells[1].firstChild.value;
+					cells[2].innerHTML = cells[2].firstChild.value;
+					cells[3].innerHTML = "$" + cells[3].firstChild.value;
+					button.innerHTML = "Edit";
+					button.onclick = function() {editRow(button)};
+				};
+			}
+		
+			function deleteRow(button) {
+				var row = button.parentNode.parentNode;
+				row.parentNode.removeChild(row);
+			}
+		</script>
+
+	
+		
+   
+
+
+      
+
+ 
+
+ 
+</body>
+   
+</html>

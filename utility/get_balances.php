@@ -19,6 +19,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $user_balance = $row["balance"];
+    $_SESSION['user_balance']=$row["balance"];
 } else {
     $_SESSION["error_message"] = "No balance found for the user.";
 }
@@ -32,6 +33,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $sub_users_balance = $row["balance"];
+    $_SESSION['sub_users_balance']=$row["balance"];
 } else {
     $_SESSION["error_message"] = "No Sub-Users balance found.";
 }
