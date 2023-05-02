@@ -8,6 +8,9 @@
   box-sizing: border-box;
 }
 
+
+
+
 body {
   background-color: #f7f7f7;
   display: flex;
@@ -171,6 +174,7 @@ tr:nth-child(even) {
 
 
 .btn-edit, .btn-delete, .btn-add {
+    display: inline-block;
     padding: 10px 20px;
     margin-right: 5px;
     border: none;
@@ -181,13 +185,15 @@ tr:nth-child(even) {
     text-align: center;
 }
 
+
 .btn-edit {
     background-color: #4343d8;
 }
 
 .btn-delete {
+
     background-color: #f44336;
-    margin-right: 0;
+    margin-left: 10px;
 }
 
 .btn-add {
@@ -203,8 +209,40 @@ tr:nth-child(even) {
   left: -5%;
   display: flex;
   justify-content: center;
+  flex-direction: row;
+  
   align-items: center;
 
 }
 
 
+.user-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.btn {
+  cursor: pointer;
+  background-color: #4343d8;;
+  box-shadow: var(--box-shadow);
+  color: #fff;
+  border: 0;
+  display: block;
+  font-size: 16px;
+  margin: 10px 0 30px;
+  padding: 10px;
+  width: 100%;
+}
+.user-profile a {
+  margin-left: 10px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  background-color: rgba(220, 75, 23, 0.839);
+
+}
+.user-profile a:hover {
+  background-color: #555;
+}

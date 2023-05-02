@@ -1,3 +1,4 @@
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -7,8 +8,8 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `family_expense_tracker` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `family_expense_tracker`;
+CREATE DATABASE IF NOT EXISTS `family_expense_tracker_g4_16` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `family_expense_tracker_g4_16`;
 
 CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL,
@@ -17,11 +18,11 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `categories` (`category_id`, `category_name`, `user_id`) VALUES
-(1, 'Groceries', 2),
+(1, 'Transfers', 2),
 (2, 'Utilities', 2),
 (3, 'Rent', 4),
 (4, 'Transportation', 4),
-(5, 'Entertainment', 0);
+(6, 'car', 2);
 
 CREATE TABLE `expenses` (
   `expense_id` int(11) NOT NULL,
@@ -34,12 +35,13 @@ CREATE TABLE `expenses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `expenses` (`expense_id`, `user_id`, `sub_user_id`, `category_id`, `expense_amount`, `expense_description`, `date_added`) VALUES
-(4, 2, NULL, 4, '300.00', 'Gas for the car', '2022-02-05'),
-(6, 3, NULL, 1, '800.00', 'Groceries for the month', '2022-01-05'),
+(4, 2, NULL, 6, '3000.00', 'Gas for the JAAAAG', '2023-05-04'),
+(6, 3, NULL, 2, '800.00', 'Groceries for the month', '2022-01-05'),
 (7, 3, NULL, 2, '300.00', 'Internet bill', '2022-01-20'),
 (8, 3, NULL, 4, '250.00', 'Train ticket', '2022-02-10'),
-(9, 3, NULL, 5, '100.00', 'Concert tickets', '2022-02-25'),
-(10, 2, NULL, 2, '2.00', 'ex', '2023-05-07');
+(17, 2, NULL, 1, '1.00', 'Transfer to mooon', '2023-05-02'),
+(18, 2, NULL, 1, '1.00', 'Transfer to mooon', '2023-05-02'),
+(19, 2, NULL, 1, '1.00', 'Transfer to Moooooncef', '2023-05-02');
 
 CREATE TABLE `revenue` (
   `revenue_id` int(11) NOT NULL,
@@ -52,32 +54,27 @@ CREATE TABLE `revenue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `revenue` (`revenue_id`, `user_id`, `sub_user_id`, `category_id`, `revenue_amount`, `revenue_description`, `date_added`) VALUES
-(1, 1, NULL, 0, '5000.00', 'Salary', '2022-01-01'),
-(2, 1, NULL, 0, '1000.00', 'Bonus', '2022-02-01'),
-(3, 2, NULL, 0, '3000.00', 'Freelancing', '2022-01-15'),
-(4, 2, NULL, 0, '2000.00', 'Part-time job', '2022-02-15'),
-(5, 3, NULL, 0, '4000.00', 'Investment return', '2022-01-30'),
-(6, 3, NULL, 0, '1500.00', 'Savings interest', '2022-02-28'),
-(14, 4, NULL, 0, '123.00', 'ayou', '2023-05-01'),
-(15, 2, NULL, 2, '1.00', 'lol', '2023-05-04'),
-(16, 2, NULL, 2, '1.00', 'lol', '2023-05-04'),
-(17, 2, NULL, 2, '1.00', 'lol', '2023-05-04'),
-(18, 2, NULL, 2, '3.00', 'rev', '2023-05-18'),
-(19, 2, NULL, 2, '3.00', 'rev', '2023-05-18');
+(3, 2, NULL, 1, '3000.00', 'Freelancing', '2022-01-15'),
+(4, 2, NULL, 1, '2000.00', 'Part-time job', '2022-02-15'),
+(5, 3, NULL, 1, '4000.00', 'Investment return', '2022-01-30'),
+(6, 3, NULL, 1, '1500.00', 'Savings interest', '2022-02-28'),
+(14, 4, NULL, 1, '123.00', 'ayou', '2023-05-01'),
+(15, 2, NULL, 2, '10000.00', 'weed', '2023-05-04'),
+(22, 2, 6, 1, '123.00', 'Transfer from user1', '2023-05-02'),
+(27, 2, 6, 1, '1.00', 'Transfer from user1', '2023-05-02'),
+(29, 2, 9, 1, '1.00', 'Transfer from user1', '2023-05-02');
 
 CREATE TABLE `sub_users` (
   `sub_user_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `status` enum('active','disabled') NOT NULL
+  `status` enum('active','disabled') NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `sub_users` (`sub_user_id`, `user_id`, `username`, `password`, `email`, `status`) VALUES
-(1, 1, 'subuser1', 'subuser123', 'subuser1@example.com', 'active'),
-(2, 1, 'subuser2', 'subuser123', 'subuser2@example.com', 'disabled'),
-(3, 2, 'subuser3', 'subuser123', 'subuser3@example.com', 'active');
+INSERT INTO `sub_users` (`sub_user_id`, `user_id`, `username`, `password`, `status`) VALUES
+(6, 2, 'mooon', '123', 'active'),
+(9, 2, 'Moooooncef', '123', 'active');
 
 CREATE TABLE `transfers` (
   `transfer_id` int(11) NOT NULL,
@@ -89,9 +86,10 @@ CREATE TABLE `transfers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `transfers` (`transfer_id`, `from_user_id`, `to_user_id`, `amount`, `date_added`, `description`) VALUES
-(1, 1, 2, '1000.00', '2022-01-15', 'Transfer to user1'),
-(2, 1, 3, '2000.00', '2022-02-01', 'Transfer to user2'),
-(3, 2, 3, '500.00', '2022-02-20', 'Transfer to subuser3');
+(7, 2, 6, '123.00', '2023-05-02', 'Transfer to mooon'),
+(8, 2, 6, '1.00', '2023-05-02', 'Transfer to mooon'),
+(9, 2, 6, '1.00', '2023-05-02', 'Transfer to mooon'),
+(10, 2, 9, '1.00', '2023-05-02', 'Transfer to Moooooncef');
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
@@ -100,9 +98,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`user_id`, `username`, `password`) VALUES
-(1, 'admin', 'admin123'),
-(2, 'user1', 'user123'),
-(3, 'user2', 'user123'),
+(2, 'Mouncef', '86'),
+(3, 'IMAD', '12'),
 (4, 'moon', '1');
 
 
@@ -123,32 +120,30 @@ ALTER TABLE `revenue`
   ADD KEY `fk_category_id_revenue` (`category_id`);
 
 ALTER TABLE `sub_users`
-  ADD PRIMARY KEY (`sub_user_id`,`user_id`) USING BTREE,
+  ADD PRIMARY KEY (`sub_user_id`),
   ADD KEY `fk_sub_user_user_id` (`user_id`);
 
 ALTER TABLE `transfers`
-  ADD PRIMARY KEY (`transfer_id`),
-  ADD KEY `fk_transfer_from_user_id` (`from_user_id`),
-  ADD KEY `fk_transfer_to_user_id` (`to_user_id`);
+  ADD PRIMARY KEY (`transfer_id`);
 
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 ALTER TABLE `expenses`
-  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 ALTER TABLE `revenue`
-  MODIFY `revenue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `revenue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 ALTER TABLE `sub_users`
-  MODIFY `sub_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sub_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `transfers`
-  MODIFY `transfer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `transfer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
@@ -171,8 +166,8 @@ ALTER TABLE `sub_users`
   ADD CONSTRAINT `fk_sub_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `transfers`
-  ADD CONSTRAINT `fk_transfer_from_user_id` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_transfer_to_user_id` FOREIGN KEY (`to_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_transfer_from_user_id` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

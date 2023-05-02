@@ -25,9 +25,14 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
 	<header>
-		<h2>Family Expense Tracker</h2>
+		<a href="../index.php" class="title">
+			<h2>Family Expense Tracker</h2>
+		</a>
 		<div class="user-profile">
-			<a href="../utility/logout.php" class="btn-out">Logout</a>
+			<a href="../pages/revenue.php" class="btn">Revenue</a>
+			<a href="../pages/categories.php" class="btn">Categories</a>
+			<a href="../pages/sub_users.php" class="btn">Subusers</a>
+			<a href="../utility/logout.php" class="btn">Logout</a>
 		</div>
 	</header>
 
@@ -93,14 +98,15 @@ if (!isset($_SESSION['user_id'])) {
 							<td><?php echo $row['expense_amount']; ?></td>
 							<td><?php echo $row['date_added']; ?></td>
 							<td>
-								<form action="../pages/edit_expense.php" method="post">
+								<form action="../pages/edit_expense.php" method="post" style="display: inline-block;">
 									<input type="hidden" name="expense_id" value="<?php echo $row['expense_id'] ?>">
 									<button class="btn-edit" type="submit">Edit</button>
 								</form>
-								<form action="../utility/delete_expense.php" method="post">
+								<form action="../utility/delete_expense.php" method="post" style="display: inline-block;">
 									<input type="hidden" name="expense_id" value="<?php echo $row['expense_id'] ?>">
 									<button class="btn-delete" type="submit">Delete</button>
 								</form>
+
 							</td>
 						</tr>
 					<?php } ?>

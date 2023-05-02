@@ -1,5 +1,4 @@
 <?php
-$username = $_SESSION['username'] ?? null;
 $user_id = $_SESSION['user_id'] ?? null;
 require_once "utility/db_connection.php";
 include "utility/get_balances.php";
@@ -24,17 +23,20 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
     <header>
-        <h2>Family Expense Tracker</h2>
-        <?php
-        if (!isset($_SESSION['user_id'])) {
-            echo '<a href="pages/login.php" class="button">Login</a>';
-            echo '<a href="pages/signup.php" class="button">signup</a>';
-        } else {
-            echo '<div class="user-profile">';
-            echo '<a href="utility/logout.php" class="btn-out">Logout</a>';
-            echo '</div>';
-        } ?>
+        <a href="index.php" class="title">
+            <h2>Family Expense Tracker</h2>
+        </a>
+
+        <div class="user-profile">
+            <a href="pages/revenue.php" class="btn">Revenue</a>
+            <a href="pages/expense.php" class="btn">Expense</a>
+            <a href="pages/categories.php" class="btn">Categories</a>
+            <a href="pages/sub_users.php" class="btn">Subusers</a>
+            <a href="utility/logout.php" class="btn">Logout</a>
+        </div>
+
     </header>
+
     <h2 class="welcome">Welcome
         <?php echo $username; ?> !</h2>
     <div class="balances">
@@ -130,7 +132,7 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
                 <div class="form-control">
                     <label for="password">Password of sub-user</label>
-                    <input required type="text" name="password" id="password" placeholder="Enter password sub-user..." />
+                    <input required type="password" name="password" id="password" placeholder="Enter password sub-user..." />
                 </div>
                 <button class="btn" type="submit">Add Sub-user</button>
             </form>
