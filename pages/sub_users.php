@@ -22,15 +22,15 @@ $stmt->close();
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="../style/style3.css">
-
-
+	<link rel="stylesheet" href="../style/style2.css">
 	<title>Familly Expense Tracker</title>
 </head>
 
 <body>
 	<header>
-		<h2>Family Expense Tracker</h2>
+		<a href="../index.php" class="title">
+			<h2>Family Expense Tracker</h2>
+		</a>
 		<div class="user-profile">
 			<a href="../utility/logout.php" class="btn-out">Logout</a>
 		</div>
@@ -62,8 +62,11 @@ $stmt->close();
 			<h4>Expense</h4>
 			<p id="money-minus" class="money minus">-<?php echo $user_expenses ?> DA</p>
 		</a>
-
 	</div>
+	<a href="transfer.php">
+		<button class="btn-add">Transfer</button>
+	</a>
+
 
 	<section>
 		<h3>Sub Users</h3>
@@ -77,9 +80,16 @@ $stmt->close();
 					</tr>
 				</thead>
 				<?php while ($row = $result->fetch_assoc()) {
-					$stmt1 = $conn->prepare("SELECT SUM((SELECT IFNULL(SUM(revenue_amount),0) FROM Revenue WHERE user_id = ? AND sub_user_id = ?) - 
-					(SELECT IFNULL(SUM(expense_amount),0) FROM Expenses WHERE user_id = ? AND sub_user_id = ? )) AS balance FROM sub_users WHERE user_id = ?");
-					$stmt1->bind_param("iiiss", $user_id, $row['sub_user_id'], $user_id, $row['sub_user_id'], $user_id);
+					$stmt1 = $conn->prepare("SELECT sub_users.username, sub_users.sub_user_id, 
+					COALESCE(SUM(revenue.revenue_amount), 0) - COALESCE(SUM(expenses.expense_amount), 0) AS balance 
+					FROM sub_users 
+					LEFT JOIN revenue ON sub_users.sub_user_id = revenue.sub_user_id 
+					LEFT JOIN expenses ON sub_users.sub_user_id = expenses.sub_user_id 
+					WHERE sub_users.user_id = ? AND sub_users.sub_user_id = ?					
+					");
+					// $stmt1 = $conn->prepare("SELECT SUM((SELECT IFNULL(SUM(revenue_amount),0) FROM Revenue WHERE user_id = ? AND sub_user_id = ?) - 
+					// (SELECT IFNULL(SUM(expense_amount),0) FROM Expenses WHERE user_id = ? AND sub_user_id = ? )) AS balance FROM sub_users WHERE user_id = ?");
+					$stmt1->bind_param("ii", $user_id, $row['sub_user_id']);
 					$stmt1->execute();
 					$result1 = $stmt1->get_result();
 					$row1 = $result1->fetch_assoc();
