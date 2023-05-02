@@ -67,11 +67,17 @@ if ($result->num_rows > 0) {
 
 
 
+// sub users balance 
 
+$stmt = $conn->prepare("SELECT COALESCE(SUM(r.revenue_amount), 0) - COALESCE(SUM(e.expense_amount), 0) AS balance
+FROM sub_users s
+LEFT JOIN revenue r ON s.sub_user_id = r.sub_user_id AND r.user_id = s.user_id
+LEFT JOIN expenses e ON s.sub_user_id = e.sub_user_id AND e.user_id = s.user_id
+WHERE s.user_id = ?");
 
-$stmt = $conn->prepare("SELECT SUM((SELECT IFNULL(SUM(revenue_amount),0) FROM Revenue WHERE user_id = ? AND sub_user_id IS NOT NULL) - 
-(SELECT IFNULL(SUM(expense_amount),0) FROM Expenses WHERE user_id = ? AND sub_user_id IS NOT NULL)) AS balance FROM sub_users WHERE user_id = ?");
-$stmt->bind_param("iii", $user_id, $user_id, $user_id);
+// $stmt = $conn->prepare("SELECT SUM((SELECT IFNULL(SUM(revenue_amount),0) FROM Revenue WHERE user_id = ? AND sub_user_id IS NOT NULL) - 
+// (SELECT IFNULL(SUM(expense_amount),0) FROM Expenses WHERE user_id = ? AND sub_user_id IS NOT NULL)) AS balance FROM sub_users WHERE user_id = ?");
+$stmt->bind_param("i",  $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
