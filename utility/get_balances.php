@@ -23,6 +23,11 @@ if ($result->num_rows > 0) {
 } else {
     $_SESSION["error_message"] = "No balance found for the user.";
 }
+
+
+
+
+// Prepare the SQL query to get the user revenue
 $stmt = $conn->prepare("SELECT 
         (SELECT IFNULL(SUM(revenue_amount),0) FROM revenue WHERE user_id = ? AND sub_user_id is NULL) AS revenue");
 $stmt->bind_param("i", $user_id);
@@ -40,6 +45,8 @@ if ($result->num_rows > 0) {
     $_SESSION["error_message"] = "No revenue found for the user.";
 }
 
+
+// Prepare the SQL query to get the user expenses
 $stmt = $conn->prepare("SELECT 
         (SELECT IFNULL(SUM(expense_amount),0) FROM expenses WHERE user_id = ? AND sub_user_id is NULL) AS expense");
 $stmt->bind_param("i", $user_id);
@@ -56,6 +63,8 @@ if ($result->num_rows > 0) {
 } else {
     $_SESSION["error_message"] = "No revenue found for the user.";
 }
+
+
 
 
 
