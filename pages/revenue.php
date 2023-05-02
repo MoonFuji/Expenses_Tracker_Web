@@ -25,9 +25,14 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
 	<header>
-		<h2>Family Expense Tracker</h2>
+		<a href="../index.php" class="title">
+			<h2>Family Expense Tracker</h2>
+		</a>
 		<div class="user-profile">
-			<a href="../utility/logout.php" class="btn-out">Logout</a>
+			<a href="../pages/expense.php" class="btn">Expense</a>
+			<a href="../pages/categories.php" class="btn">Categories</a>
+			<a href="../pages/sub_users.php" class="btn">Subusers</a>
+			<a href="../utility/logout.php" class="btn">Logout</a>
 		</div>
 	</header>
 

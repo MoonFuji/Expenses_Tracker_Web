@@ -6,5 +6,5 @@ unset($_SESSION['user_id']);
 session_destroy();
 
 // Redirect to the login page or homepage
-header('Location: ../pages/login.php');
+header('Location: ../pages/welcome.html');
 exit;

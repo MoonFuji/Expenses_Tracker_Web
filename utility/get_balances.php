@@ -2,6 +2,7 @@
 // Connect to the database
 require_once "db_connection.php";
 $user_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
 $sub_user_id = $_SESSION['sub_user_id'] ?? NULL;
 
 // Prepare the SQL query to get the user balance
